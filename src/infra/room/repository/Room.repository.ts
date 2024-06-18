@@ -132,13 +132,18 @@ class RoomRepository implements IRoomRepository {
   }
 
   async deleteBy(id: string): Promise<boolean> {
+    const transaction = await this.sequelize.transaction();
     try{
       await this.findBy(id);
-      const query = `DELETE FROM rooms WHERE id = '${id}'`;
-      const [, queryResponse ] = await this.sequelize.query(query, { type: QueryTypes.UPDATE });
+      const deleteRoomQuery = `DELETE FROM rooms WHERE id = '${id}'`;
+      const [, queryResponse ] = await this.sequelize.query(deleteRoomQuery, { type: QueryTypes.UPDATE });
+      const deleteRoomMoviesQuery = `DELETE FROM room_movies WHERE fk_room_id = '${id}'`;
+      await this.sequelize.query(deleteRoomMoviesQuery, { type: QueryTypes.DELETE, transaction });
+      await transaction.commit();
       const result = queryResponse > 0;
       return result;
     }catch(err: any){
+      transaction.rollback();
       console.error(err);
       throw new Error(err?.errors?.[0].message || `failed on delete room by id ${id}`);
     }
