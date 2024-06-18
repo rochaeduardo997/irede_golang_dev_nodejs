@@ -1,6 +1,5 @@
 import IMovieRepository from "../../movie/repository/MovieRepository.interface";
 import IRoomRepository from "../repository/RoomRepository.interface";
-import { createHash } from 'crypto';
 
 type TRoomMovies = {
   id:                string;
