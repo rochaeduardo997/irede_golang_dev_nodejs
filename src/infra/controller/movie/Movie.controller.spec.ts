@@ -29,7 +29,7 @@ describe('success', () => {
   test('create', async () => {
     const { status, body } = await request
       .post('/api/v1/movies')
-      .send({ ...input, status: false });
+      .send(input);
     expect(body?.result?.id).toBeDefined();
     expect(body?.result?.name).toEqual(input.name);
     expect(body?.result?.director).toEqual(input.director);
