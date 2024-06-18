@@ -19,6 +19,23 @@ const instanceSequelizeSQLite3 = async () => {
   return result;
 }
 
+const instanceSequelizeMySQL = async () => {
+  const database = process.env.DB_DB!;
+  const username = process.env.DB_USER!;
+  const password = process.env.DB_PASSWORD!;
+  const host     = process.env.DB_HOST!;
+
+  const result = new Sequelize({
+    username, password, database, host,
+    dialect: 'mysql',
+    logging: false
+  });
+
+  await syncModels(result);
+
+  return result;
+}
+
 const syncModels = async (sequelize: Sequelize): Promise<void> => {
   sequelize.addModels([
     MovieModel,
@@ -29,5 +46,7 @@ const syncModels = async (sequelize: Sequelize): Promise<void> => {
 
   return;
 }
+
+export { instanceSequelizeMySQL }
 
 export default instanceSequelizeSQLite3;

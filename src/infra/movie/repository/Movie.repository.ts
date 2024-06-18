@@ -13,7 +13,6 @@ class MovieRepository implements IMovieRepository {
       const query = `
         INSERT INTO movies(id, name, director, duration_in_seconds)
         VALUES('${input.id}', '${input.name}', '${input.director}', '${input.durationInSeconds}')
-        RETURNING *
       `;
       const [ queryResponse ] = await this.sequelize.query(query, { type: QueryTypes.INSERT });
       const result = queryResponse > 0;
