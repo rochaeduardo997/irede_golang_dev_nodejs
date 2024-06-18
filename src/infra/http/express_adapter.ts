@@ -2,6 +2,8 @@ import IHttp, { TMethods } from "./http.interface";
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import swaggerUI from 'swagger-ui-express';
+import swaggerSpec from '../../swagger';
 
 class ExpressAdapter implements IHttp {
   public app;
@@ -13,6 +15,9 @@ class ExpressAdapter implements IHttp {
       .use(express.json())
       .use(helmet())
       .use(express.urlencoded());
+
+
+    this.app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
     this.route = express.Router();
   }

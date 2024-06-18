@@ -7,6 +7,12 @@ import UpdateByIdHandler from "../../../room/application/UpdateByIdHandler";
 import IRoomRepository from "../../../room/repository/RoomRepository.interface";
 import IHttp from "../../http/http.interface";
 
+/**
+ * @swagger
+ *  tags:
+ *    name: Rooms
+ */
+
 type TRouteResponse = { statusCode: number, result: any }
 
 class RoomController {
@@ -22,6 +28,26 @@ class RoomController {
     console.log('room controller successful loaded');
   }
 
+  /**
+   * @swagger
+   * /rooms:
+   *   post:
+   *     summary: Create a new room
+   *     tags: [Rooms]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Room'
+   *     responses:
+   *       201:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Room'
+   */
   private async CreateRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const createHandler = new CreateHandler(this.roomRepository, this.movieRepository);
@@ -33,6 +59,27 @@ class RoomController {
     }
   }
 
+  /**
+   * @swagger
+   * /rooms/all/{page}:
+   *   get:
+   *     summary: Get all rooms
+   *     tags: [Rooms]
+   *     parameters:
+   *       - in : path
+   *         name: page
+   *         description: search page
+   *         schema:
+   *           type: integer
+   *         required: true
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/GetRooms'
+   */
   private async FindAllRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { page = 1 } = req.params;
@@ -45,6 +92,27 @@ class RoomController {
     }
   }
 
+  /**
+   * @swagger
+   * /rooms/{id}:
+   *   get:
+   *     summary: Get room by id
+   *     tags: [Rooms]
+   *     parameters:
+   *       - in : path
+   *         name: id
+   *         description: room id
+   *         schema:
+   *           type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/GetRoom'
+   */
   private async FindByIdRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { id } = req.params;
@@ -57,6 +125,33 @@ class RoomController {
     }
   }
 
+  /**
+   * @swagger
+   * /rooms/{id}:
+   *   put:
+   *     summary: Update room by id
+   *     tags: [Rooms]
+   *     parameters:
+   *       - in : path
+   *         name: id
+   *         description: room id
+   *         schema:
+   *           type: string
+   *         required: true
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Room'
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/GetRoom'
+   */
   private async UpdateByIdRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { id } = req.params;
@@ -69,6 +164,26 @@ class RoomController {
     }
   }
 
+  /**
+   * @swagger
+   * /rooms/{id}:
+   *   delete:
+   *     summary: Delete room by id
+   *     tags: [Rooms]
+   *     parameters:
+   *       - in : path
+   *         name: id
+   *         description: room id
+   *         schema:
+   *           type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             type: boolean
+   */
   private async DeleteByIdRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { id } = req.params;

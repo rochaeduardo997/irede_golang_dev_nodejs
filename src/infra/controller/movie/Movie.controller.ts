@@ -8,6 +8,12 @@ import IHttp from "../../http/http.interface";
 
 type TRouteResponse = { statusCode: number, result: any }
 
+/**
+ * @swagger
+ *  tags:
+ *    name: Movies
+ */
+
 class MovieController {
   constructor(httpAdapter: IHttp, private movieRepository: IMovieRepository){
     const BASE_URL_PATH = '/movies';
@@ -21,6 +27,26 @@ class MovieController {
     console.log('movie controller successful loaded');
   }
 
+  /**
+   * @swagger
+   * /movies:
+   *   post:
+   *     summary: Create a new movie
+   *     tags: [Movies]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Movie'
+   *     responses:
+   *       201:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Movie'
+   */
   private async CreateRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const createHandler = new CreateHandler(this.movieRepository);
@@ -32,6 +58,27 @@ class MovieController {
     }
   }
 
+  /**
+   * @swagger
+   * /movies/all/{page}:
+   *   get:
+   *     summary: Get all movies
+   *     tags: [Movies]
+   *     parameters:
+   *       - in : path
+   *         name: page
+   *         description: search page
+   *         schema:
+   *           type: integer
+   *         required: true
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/GetMovies'
+   */
   private async FindAllRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { page = 1 } = req.params;
@@ -44,6 +91,27 @@ class MovieController {
     }
   }
 
+  /**
+   * @swagger
+   * /movies/{id}:
+   *   get:
+   *     summary: Get movie by id
+   *     tags: [Movies]
+   *     parameters:
+   *       - in : path
+   *         name: id
+   *         description: movie id
+   *         schema:
+   *           type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/GetMovie'
+   */
   private async FindByIdRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { id } = req.params;
@@ -56,6 +124,33 @@ class MovieController {
     }
   }
 
+  /**
+   * @swagger
+   * /movies/{id}:
+   *   put:
+   *     summary: Update movie by id
+   *     tags: [Movies]
+   *     parameters:
+   *       - in : path
+   *         name: id
+   *         description: movie id
+   *         schema:
+   *           type: string
+   *         required: true
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Movie'
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/GetMovie'
+   */
   private async UpdateByIdRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { id } = req.params;
@@ -68,6 +163,26 @@ class MovieController {
     }
   }
 
+  /**
+   * @swagger
+   * /movies/{id}:
+   *   delete:
+   *     summary: Delete movie by id
+   *     tags: [Movies]
+   *     parameters:
+   *       - in : path
+   *         name: id
+   *         description: movie id
+   *         schema:
+   *           type: string
+   *         required: true
+   *     responses:
+   *       200:
+   *         description:
+   *         content:
+   *           application/json:
+   *             type: boolean
+   */
   private async DeleteByIdRoute(req: any, res: any): Promise<TRouteResponse>{
     try{
       const { id } = req.params;
