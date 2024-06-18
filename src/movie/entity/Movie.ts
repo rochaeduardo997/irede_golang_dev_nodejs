@@ -5,9 +5,9 @@ type TInput = {
   durationInSeconds: number;
 };
 type TUpdateInput = {
-  name:              string;
-  director:          string;
-  durationInSeconds: number;
+  name?:              string;
+  director?:          string;
+  durationInSeconds?: number;
 };
 
 class Movie {
