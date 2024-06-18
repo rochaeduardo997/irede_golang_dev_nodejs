@@ -6,8 +6,8 @@ type TInput = {
   description: string;
 };
 type TUpdateInput = {
-  number:      number;
-  description: string;
+  number?:      number;
+  description?: string;
 };
 
 class Room {
@@ -29,6 +29,11 @@ class Room {
 
   public getAssociatedMovies(): Movie[] {
     return this._movies;
+  }
+
+  public cleanupAssociatedMovies(): void {
+    this._movies = [];
+    return;
   }
 
   public update(x: TUpdateInput) {
